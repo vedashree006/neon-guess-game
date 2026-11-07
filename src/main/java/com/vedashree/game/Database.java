@@ -24,8 +24,8 @@ import java.util.logging.Logger;
 public final class Database {
     private static final Logger LOG = Logger.getLogger(Database.class.getName());
     private static final String UNIQUE_VIOLATION = "23505";
-    private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "";
+    private static final String H2_USER = "sa";
+    private static final String H2_PASSWORD = "";
 
     /** Allowed leaderboard orderings. The clause text is a compile-time constant. */
     public enum Sort {
@@ -55,16 +55,40 @@ public final class Database {
     private static final String STATS_SQL = "SELECT COUNT(*), "
             + "COALESCE(SUM(CASE WHEN outcome = 'WON' THEN 1 ELSE 0 END), 0) FROM game_results";
 
-    private final String url;
+private final String url;
+private final String dbUser;
+private final String dbPassword;
 
-    public Database(String url) {
+public Database(String url) {
+    this.url = url;
+
+    if (url.startsWith("jdbc:postgresql:")) {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("PostgreSQL driver not found", e);
+        }
+
+        this.dbUser = System.getenv("DB_USERNAME");
+        this.dbPassword = System.getenv("DB_PASSWORD");
+
+        if (dbUser == null || dbPassword == null) {
+            throw new IllegalStateException("PostgreSQL credentials are missing");
+        }
+    } else if (url.startsWith("jdbc:h2:")) {
         try {
             Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("H2 driver not found on the classpath", e);
+            throw new IllegalStateException("H2 driver not found", e);
         }
-        this.url = url;
+
+        this.dbUser = H2_USER;
+        this.dbPassword = H2_PASSWORD;
+    } else {
+        throw new IllegalArgumentException("Unsupported database URL");
     }
+}
+
 
     /** Folder that holds the database files: -Dneon.db.dir, then env NEON_DB_DIR, then ~/.neon-guess-game. */
     public static Path defaultDirectory() {
@@ -82,18 +106,30 @@ public final class Database {
      * File database location. Keeping it outside the WAR means scores and analytics survive redeploys.
      */
     public static String defaultUrl() {
-        Path folder = defaultDirectory();
-        try {
-            Files.createDirectories(folder);
-        } catch (IOException e) {
-            LOG.log(Level.WARNING, "Could not create database folder " + folder, e);
+    String databaseUrl = System.getenv("DATABASE_URL");
+
+    if (databaseUrl != null && !databaseUrl.isBlank()) {
+        if (databaseUrl.startsWith("postgresql://")) {
+            return "jdbc:" + databaseUrl;
         }
-        return "jdbc:h2:file:" + folder.resolve("scores").toString().replace('\\', '/');
+        if (databaseUrl.startsWith("jdbc:postgresql://")) {
+            return databaseUrl;
+        }
+        throw new IllegalStateException("Invalid PostgreSQL DATABASE_URL");
     }
 
-    private Connection connect() throws SQLException {
-        return DriverManager.getConnection(url, DB_USER, DB_PASSWORD);
+    Path folder = defaultDirectory();
+    try {
+        Files.createDirectories(folder);
+    } catch (IOException e) {
+        LOG.log(Level.WARNING, "Could not create database folder " + folder, e);
     }
+    return "jdbc:h2:file:" + folder.resolve("scores").toString().replace('\\', '/');
+}
+
+    private Connection connect() throws SQLException {
+    return DriverManager.getConnection(url, dbUser, dbPassword);
+}
 
     /** Opens a new connection. Callers must close it (try-with-resources). */
     public Connection openConnection() throws SQLException {
@@ -105,7 +141,8 @@ public final class Database {
         try (Connection connection = connect()) {
             Migrator.migrate(connection);
         }
-        LOG.info("Database ready: " + url);
+       LOG.info("Database ready: " +
+        (url.startsWith("jdbc:postgresql:") ? "PostgreSQL" : "H2"));
     }
 
     /**

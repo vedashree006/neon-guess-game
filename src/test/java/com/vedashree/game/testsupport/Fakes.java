@@ -152,7 +152,8 @@ public final class Fakes {
             this.proxy = (HttpServletRequest) Proxy.newProxyInstance(
                     Fakes.class.getClassLoader(), new Class<?>[] {HttpServletRequest.class}, (p, m, a) -> {
                         switch (m.getName()) {
-                            case "getMethod": return method;
+                            case "getMethod": return method == null ? "GET" : method;
+                            case "getProtocol": return "HTTP/1.1";
                             case "getParameter": return params.get((String) a[0]);
                             case "getHeader":
                                 for (Map.Entry<String, String> e : headers.entrySet()) {
