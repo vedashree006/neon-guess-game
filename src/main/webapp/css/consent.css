@@ -1,0 +1,40 @@
+/* Cookie banner, settings dialog and footer links. Reuses the neon tokens from style.css. */
+.cc-banner {
+  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 80;
+  max-width: 860px; margin: 0 auto; padding: 1.2rem 1.4rem;
+  background: rgba(14, 7, 38, 0.94);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  border: 1px solid rgba(167, 139, 250, 0.55); border-radius: var(--radius);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 44px rgba(139, 92, 246, 0.35);
+}
+.cc-banner h2, .cc-dialog h2 { margin: 0 0 0.5rem; font-size: 1.15rem; text-shadow: 0 0 12px rgba(139, 92, 246, 0.9); }
+.cc-banner p { margin: 0 0 0.5rem; }
+.cc-banner a, .footer a { color: var(--blue); }
+
+.cc-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.8rem; }
+/* Accept and Reject share the same style and size: equal prominence. */
+.cc-btn { flex: 1 1 10rem; margin-top: 0; padding: 0.7rem 1rem; font-size: 0.85rem; }
+
+.cc-dialog {
+  width: min(560px, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); overflow: auto;
+  padding: 1.4rem; color: var(--text);
+  background: #12082e; border: 1px solid rgba(167, 139, 250, 0.6); border-radius: var(--radius);
+  box-shadow: 0 0 60px rgba(139, 92, 246, 0.45);
+}
+.cc-dialog::backdrop { background: rgba(4, 2, 12, 0.72); }
+
+.cc-cat {
+  margin: 0.8rem 0; padding: 0.8rem 1rem; border-radius: 14px;
+  background: rgba(10, 5, 28, 0.7); border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.cc-cat .help { margin-top: 0.3rem; }
+.cc-cat-title { display: flex; align-items: center; gap: 0.7rem; cursor: pointer; }
+.cc-check { width: 1.2rem; height: 1.2rem; flex: none; accent-color: var(--purple); }
+.cc-check:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+.link-btn {
+  padding: 0; font: inherit; color: var(--blue); background: none; border: 0;
+  text-decoration: underline; cursor: pointer;
+}
+.link-btn:focus-visible { outline: 3px solid #fff; outline-offset: 3px; border-radius: 4px; }
+.footer-links { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; margin-top: 0.4rem; }

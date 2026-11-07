@@ -1,0 +1,9 @@
+target/
+.git/
+.github/
+.env
+.idea/
+.vscode/
+docs/
+*.mv.db
+*.trace.db

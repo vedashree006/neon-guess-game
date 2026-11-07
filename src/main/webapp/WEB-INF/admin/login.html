@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin sign-in</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="space" aria-hidden="true"><div class="nebula"></div><div class="crystal c1"></div><div class="crystal c3"></div></div>
+  <main class="login-wrap">
+    <section class="card login-card" aria-labelledby="login-title">
+      <h1 id="login-title" class="login-title">Admin sign-in</h1>
+      <p class="help">Analytics dashboard. Authorised use only.</p>
+      %%MESSAGE%%
+      <form method="post" action="login" class="stack" autocomplete="on">
+        <input type="hidden" name="csrf" value="%%CSRF%%">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" maxlength="64" autocomplete="username" required>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" maxlength="256" autocomplete="current-password" required>
+        <button class="btn" type="submit">Sign in</button>
+      </form>
+      <p class="help"><a href="../">Back to the game</a></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.vedashree</groupId>
+  <artifactId>neon-guess-game</artifactId>
+  <version>1.1.0</version>
+  <packaging>war</packaging>
+  <name>3D Neon Guess the Number</name>
+  <description>Java Servlet + JDBC + H2 guessing game with a neon 3D UI</description>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>5.10.2</junit.version>
+    <h2.version>2.2.224</h2.version>
+    <tomcat.version>10.1.28</tomcat.version>
+    <tomcat.base>https://archive.apache.org/dist/tomcat/tomcat-10/v${tomcat.version}/bin</tomcat.base>
+  </properties>
+
+  <dependencies>
+    <!-- Provided by Tomcat 10.1 at runtime -->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Embedded database, bundled inside the WAR -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>neon-guess-game</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+      </plugin>
+
+      <!-- "mvn package cargo:run" downloads Tomcat 10.1 and runs the WAR on port 8080 -->
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven3-plugin</artifactId>
+        <version>1.10.14</version>
+        <configuration>
+          <container>
+            <containerId>tomcat10x</containerId>
+            <zipUrlInstaller>
+              <url>${tomcat.base}/apache-tomcat-${tomcat.version}.zip</url>
+            </zipUrlInstaller>
+          </container>
+          <configuration>
+            <properties>
+              <cargo.servlet.port>8080</cargo.servlet.port>
+            </properties>
+          </configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

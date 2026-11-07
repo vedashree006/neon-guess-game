@@ -1,0 +1,16 @@
+target/
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+.classpath
+.project
+.settings/
+
+# secrets and local data
+.env
+*.mv.db
+*.trace.db
+backups/
+.neon-guess-game/

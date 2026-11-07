@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Analytics dashboard</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <script src="../js/admin.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#dash">Skip to the dashboard</a>
+  <div class="space" aria-hidden="true"><div class="nebula"></div><div class="crystal c1"></div><div class="crystal c3"></div></div>
+
+  <header class="admin-head">
+    <div>
+      <h1>Analytics dashboard</h1>
+      <p class="help"><span id="status" class="pill" role="status">Loading</span>
+        Updated <time id="updated">never</time> &middot; refreshes automatically</p>
+    </div>
+    <div class="admin-actions">
+      <button id="refresh" class="btn btn-small" type="button">Refresh now</button>
+      <a class="btn btn-small btn-ghost-link" href="../">View game</a>
+      <form method="post" action="logout">
+        <input type="hidden" name="csrf" value="%%CSRF%%">
+        <button class="btn btn-small btn-ghost-link" type="submit">Sign out</button>
+      </form>
+    </div>
+  </header>
+
+  <div id="banner" class="alert admin-banner" role="alert" hidden></div>
+
+  <main id="dash" class="admin-grid">
+    <section class="card" aria-labelledby="h-live">
+      <h2 id="h-live">Live now</h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Active visitors</span><strong data-bind="live.activeVisitors">-</strong></div>
+        <div class="stat"><span class="stat-label">Ongoing game sessions</span><strong data-bind="live.ongoingGameSessions">-</strong></div>
+        <div class="stat"><span class="stat-label">Logged-in admins</span><strong data-bind="authentication.loggedInAdmins">-</strong></div>
+      </div>
+      <p class="help">Active visitors are an <strong>estimate</strong>: consenting visitors with activity in the last
+        <span data-bind="settings.activeWindowSeconds" data-format="minutes">-</span> minutes.
+        Idle but not yet ended: <span data-bind="live.idleVisitors">-</span>.
+        Game sessions and logged-in admins come from live server sessions and include visitors who declined analytics.</p>
+    </section>
+
+    <section class="card" aria-labelledby="h-aud">
+      <h2 id="h-aud">Audience <span class="tag">consented analytics only</span></h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Unique visitors</span><strong data-bind="visitors.totalUnique">-</strong></div>
+        <div class="stat"><span class="stat-label">Unique today</span><strong data-bind="visitors.uniqueToday">-</strong></div>
+        <div class="stat"><span class="stat-label">New today</span><strong data-bind="visitors.newToday">-</strong></div>
+        <div class="stat"><span class="stat-label">Unique last 7 days</span><strong data-bind="visitors.unique7d">-</strong></div>
+        <div class="stat"><span class="stat-label">Previous 7 days</span><strong data-bind="visitors.uniquePrevious7d">-</strong></div>
+        <div class="stat"><span class="stat-label">Registered users</span><strong data-bind="authentication.registeredUsers" data-format="na">-</strong></div>
+      </div>
+      <p class="help">Visitors who rejected analytics cookies are not counted, so real traffic is higher.
+        The game has no public accounts, hence no registered users.</p>
+    </section>
+
+    <section class="card" aria-labelledby="h-traffic">
+      <h2 id="h-traffic">Visits and page views</h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Visits total</span><strong data-bind="traffic.totalVisits">-</strong></div>
+        <div class="stat"><span class="stat-label">Visits today</span><strong data-bind="traffic.visitsToday">-</strong></div>
+        <div class="stat"><span class="stat-label">Page views total</span><strong data-bind="traffic.totalPageViews">-</strong></div>
+        <div class="stat"><span class="stat-label">Page views today</span><strong data-bind="traffic.pageViewsToday">-</strong></div>
+      </div>
+      <p class="help">Last activity: <time data-bind="activity.lastActivityAt" data-format="datetime">-</time>.
+        Visits: <span data-bind="activity.visitsActive">-</span> active,
+        <span data-bind="activity.visitsIdle">-</span> idle,
+        <span data-bind="activity.visitsEndedLast24h">-</span> ended in the last 24 h.
+        A visit ends after <span data-bind="settings.visitTimeoutMinutes">-</span> minutes without activity.</p>
+    </section>
+
+    <section class="card" aria-labelledby="h-games">
+      <h2 id="h-games">Games <span class="tag">consented analytics only</span></h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Started</span><strong data-bind="games.started">-</strong></div>
+        <div class="stat"><span class="stat-label">Completed</span><strong data-bind="games.completed">-</strong></div>
+        <div class="stat"><span class="stat-label">Won</span><strong data-bind="games.won">-</strong></div>
+        <div class="stat"><span class="stat-label">Lost</span><strong data-bind="games.lost">-</strong></div>
+        <div class="stat"><span class="stat-label">Win rate</span><strong data-bind="games.winRatePercent" data-format="percent">-</strong></div>
+        <div class="stat"><span class="stat-label">Avg attempts</span><strong data-bind="games.avgAttemptsPerCompletedGame" data-format="decimal">-</strong></div>
+      </div>
+      <p class="help">Average attempts per won game: <span data-bind="games.avgAttemptsPerWonGame" data-format="decimal">-</span>.
+        Leaderboard (all saved games, every player):
+        <span data-bind="leaderboard.savedGames">-</span> played,
+        <span data-bind="leaderboard.wins">-</span> won,
+        <span data-bind="leaderboard.losses">-</span> lost.</p>
+    </section>
+
+    <section class="card wide" aria-labelledby="h-chart">
+      <div class="chart-head">
+        <h2 id="h-chart">Activity over time</h2>
+        <div class="range" role="group" aria-label="Chart range">
+          <button type="button" class="range-btn" data-range="24h" aria-pressed="false">24 hours</button>
+          <button type="button" class="range-btn" data-range="7d" aria-pressed="true">7 days</button>
+          <button type="button" class="range-btn" data-range="30d" aria-pressed="false">30 days</button>
+        </div>
+      </div>
+      <div id="chart" class="chart"></div>
+      <ul id="legend" class="legend" aria-hidden="true"></ul>
+      <details>
+        <summary>Show data as a table</summary>
+        <div class="table-wrap">
+          <table>
+            <caption class="sr-only">Visitors and game activity per period (UTC)</caption>
+            <thead><tr><th scope="col">Period (UTC)</th><th scope="col">Unique visitors</th><th scope="col">Page views</th>
+              <th scope="col">Games started</th><th scope="col">Games completed</th></tr></thead>
+            <tbody id="series-body"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="h-daily">
+      <h2 id="h-daily">Daily statistics (last 7 days, UTC)</h2>
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Daily visitors and games</caption>
+          <thead><tr><th scope="col">Day</th><th scope="col">Visitors</th><th scope="col">Page views</th>
+            <th scope="col">Games started</th><th scope="col">Completed</th></tr></thead>
+          <tbody id="daily-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="h-server">
+      <h2 id="h-server">Server sessions</h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-label">Open sessions</span><strong data-bind="live.openServerSessions">-</strong></div>
+        <div class="stat"><span class="stat-label">Active now</span><strong data-bind="live.activeServerSessions">-</strong></div>
+        <div class="stat"><span class="stat-label">Created</span><strong data-bind="serverSessions.sessionsCreatedSinceStart">-</strong></div>
+        <div class="stat"><span class="stat-label">Expired</span><strong data-bind="serverSessions.sessionsExpiredSinceStart">-</strong></div>
+        <div class="stat"><span class="stat-label">Ended</span><strong data-bind="serverSessions.sessionsInvalidatedSinceStart">-</strong></div>
+      </div>
+      <p class="help">In-memory counters since the server started
+        (<time data-bind="serverSessions.startedAt" data-format="datetime">-</time>). Sessions expire after
+        <span data-bind="settings.sessionTimeoutMinutes">-</span> minutes of inactivity. Expired and ended are told apart by inactivity age.</p>
+    </section>
+
+    <section class="card wide" aria-labelledby="h-defs">
+      <h2 id="h-defs">Definitions</h2>
+      <dl class="defs">
+        <dt>Visitor</dt><dd>An anonymous browser with the analytics cookie (random id, no personal data). Only visitors who accepted analytics are counted.</dd>
+        <dt>Unique visitor</dt><dd>One visitor id, counted once however often it returns.</dd>
+        <dt>Visit</dt><dd>A run of activity by one visitor. It ends after the inactivity timeout; coming back later starts a new visit.</dd>
+        <dt>Page view</dt><dd>One page load. Heartbeats and dashboard polling are never page views.</dd>
+        <dt>Active visitor</dt><dd>A visitor with activity inside the activity window. A live <em>estimate</em>, not an exact count.</dd>
+        <dt>Game session</dt><dd>A game in progress in a server session. Includes people who declined analytics.</dd>
+        <dt>Authenticated user</dt><dd>A signed-in admin. Visitors are never authenticated users.</dd>
+        <dt>Retention</dt><dd>Raw analytics are deleted after <span data-bind="settings.retentionDays">-</span> days.</dd>
+      </dl>
+    </section>
+  </main>
+</body>
+</html>

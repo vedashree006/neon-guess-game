@@ -1,0 +1,34 @@
+# Local / single-server deployment.
+#   docker compose up -d --build                     -> http://localhost:8080
+#   docker compose --profile https up -d --build     -> adds Caddy with automatic HTTPS for $DOMAIN
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      NEON_DB_DIR: /data
+    volumes:
+      - neon-data:/data              # H2 database + rolling backups survive restarts and redeploys
+    ports:
+      - "127.0.0.1:8080:8080"        # loopback only; expose publicly through the proxy below
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    profiles: ["https"]
+    depends_on: [app]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: unless-stopped
+
+volumes:
+  neon-data:
+  caddy-data:
+  caddy-config:

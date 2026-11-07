@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy and cookies - 3D Neon Guess the Number</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/consent.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/consent.js" defer></script>
+</head>
+<body>
+  <div class="space" aria-hidden="true"><div class="nebula"></div><div class="crystal c1"></div><div class="crystal c3"></div></div>
+  <main class="legal">
+    <section class="card">
+      <h1>Privacy and cookies</h1>
+      <p class="help"><a href="./">Back to the game</a></p>
+
+      <p><strong>Template notice for the site owner:</strong> replace every [PLACEHOLDER], have the text reviewed for
+        your situation, and add the legal notice (Impressum) that German law requires for most websites.
+        This page describes what the software does; it is not legal advice.</p>
+
+      <h2>Who is responsible</h2>
+      <p>[YOUR NAME], [ADDRESS], [E-MAIL]. This is a personal portfolio project.</p>
+
+      <h2>What happens when you play</h2>
+      <p>The game keeps your current game, including the secret number, in a server session. When a game ends, your
+        player name (a nickname you choose; please do not use your real name), the result, the number of attempts
+        and the time are saved and <strong>shown publicly on the leaderboard</strong>. Legal basis: providing the
+        game you asked for (Art. 6(1)(b) GDPR) and our interest in a working leaderboard (Art. 6(1)(f) GDPR).
+        Leaderboard entries are kept until they are removed; write to the address above to have one deleted.</p>
+      <p>For abuse protection the server briefly keeps your IP address in memory to limit request rates. It is not
+        written to the database and disappears within minutes. Your hosting provider may log requests as part of
+        operating the server: [HOSTING PROVIDER / LOG RETENTION].</p>
+
+      <h2>Cookies</h2>
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Cookies used by this site</caption>
+          <thead><tr><th scope="col">Cookie</th><th scope="col">Category</th><th scope="col">Purpose</th><th scope="col">Lifetime</th></tr></thead>
+          <tbody>
+            <tr><td>JSESSIONID</td><td>Necessary</td><td>Holds your running game on the server (and the admin sign-in for the site owner)</td><td>Until you close the browser or after the inactivity timeout (30 min by default)</td></tr>
+            <tr><td>neon_consent</td><td>Necessary</td><td>Remembers your cookie choice and the policy version you saw</td><td>Up to 180 days</td></tr>
+            <tr><td>neon_vid</td><td>Analytics (optional)</td><td>Random anonymous visitor id for counting visitors, visits and page views</td><td>Up to 180 days</td></tr>
+            <tr><td>neon_prefs</td><td>Preferences (optional)</td><td>Remembers your player name and leaderboard view on this device</td><td>Up to 180 days</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>All cookies are first-party, set with SameSite=Strict, and marked Secure when the site is served over HTTPS.
+        The consent, session and analytics cookies are HttpOnly, so page scripts cannot read them.
+        Necessary cookies are used without consent because the service you request cannot work without them
+        (section 25(2) no. 2 TDDDG). Analytics and preference cookies are set <strong>only after you agree</strong>
+        (Art. 6(1)(a) GDPR, section 25(1) TDDDG). Rejecting them has no effect on the game.</p>
+
+      <h2>Analytics</h2>
+      <p>If you accept analytics, the server stores the random visitor id, the time of your visits, which page you
+        opened (path only, never a query string), and game events (started, won or lost, number of attempts).
+        It stores no IP address, no browser fingerprint, no name and no e-mail address. Only the site owner sees the
+        results, as totals and charts. Raw analytics data is deleted after 365 days by default.
+        We cannot guarantee this setup suits every legal situation; the choice is yours.</p>
+
+      <h2>Your choices and rights</h2>
+      <p><button type="button" class="link-btn" data-cookie-settings>Open cookie settings</button> to change your choice
+        at any time. Withdrawing analytics consent deletes the cookie and the analytics data linked to it right away.
+        You also have the rights of access, rectification, erasure, restriction, objection and data portability,
+        and may complain to a data protection authority. Withdrawal does not affect earlier lawful processing.</p>
+      <p>We keep a record of your consent choice (a random id, the choice, the policy version and the time; no IP
+        address) to be able to show that you decided, for up to 3 years.</p>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer-links">
+      <button type="button" class="link-btn" data-cookie-settings>Cookie settings</button>
+      <a href="./">Game</a>
+    </p>
+  </footer>
+</body>
+</html>

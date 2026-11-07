@@ -1,0 +1,6 @@
+# Automatic HTTPS (Let's Encrypt). Point your domain's DNS A/AAAA record at this server first.
+# Caddy replaces any client-sent X-Forwarded-For, so set TRUST_PROXY=true in .env when you use it.
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:8080
+}

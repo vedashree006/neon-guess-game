@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A neon 3D Guess the Number game built with Java Servlets, JDBC and H2.">
+  <title>3D Neon Guess the Number</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/consent.css">
+  <script src="js/consent.js" defer></script>
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the game</a>
+
+  <div class="space" aria-hidden="true">
+    <div class="nebula"></div>
+    <div id="sparkles"></div>
+    <div class="crystal c1"></div>
+    <div class="crystal c2"></div>
+    <div class="crystal c3"></div>
+    <div class="crystal c4"></div>
+    <div class="crystal c5"></div>
+  </div>
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Java Servlet &middot; JDBC &middot; H2</p>
+    <h1><span>Guess the</span> <strong>Number</strong></h1>
+    <p class="subtitle">I'm thinking of a number from 1 to 50. You have 10 attempts.</p>
+  </header>
+
+  <noscript><p class="alert">This game needs JavaScript. Please enable it and reload.</p></noscript>
+
+  <main id="main" class="layout">
+    <section class="card" aria-labelledby="game-title">
+      <h2 id="game-title">Mission control</h2>
+      <div id="error" class="alert" role="alert" hidden></div>
+
+      <form id="start-form" class="stack" novalidate>
+        <label for="name">Player name</label>
+        <input id="name" name="name" type="text" maxlength="20" autocomplete="nickname"
+               placeholder="Your name (optional)" aria-describedby="name-help">
+        <p id="name-help" class="help">Up to 20 letters, digits, spaces, _ - or .</p>
+        <button id="start-btn" class="btn" type="submit">Start game</button>
+      </form>
+
+      <div id="play" hidden>
+        <p class="player">Pilot: <strong id="player-name"></strong></p>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-label">Attempts left</span>
+            <strong id="stat-left">10</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Total tries</span>
+            <strong id="stat-tries">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Status</span>
+            <strong id="stat-status">Playing</strong>
+          </div>
+        </div>
+
+        <div id="meter" class="meter" role="progressbar" aria-label="Attempts used"
+             aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+          <div id="meter-fill" class="meter-fill"></div>
+        </div>
+
+        <form id="guess-form" class="guess-row" novalidate>
+          <div class="field">
+            <label for="guess">Your guess (1-50)</label>
+            <input id="guess" name="guess" type="number" inputmode="numeric" min="1" max="50"
+                   step="1" autocomplete="off" required>
+          </div>
+          <button id="guess-btn" class="btn" type="submit">Guess</button>
+        </form>
+
+        <p id="message" class="message" aria-live="polite"></p>
+
+        <ul id="guess-list" class="chips" aria-label="Your guesses so far"></ul>
+
+        <button id="restart-btn" class="btn btn-ghost" type="button" hidden>Play again</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="board-title">
+      <h2 id="board-title">Leaderboard</h2>
+      <p id="stats-line" class="help" aria-live="polite">Loading...</p>
+
+      <label for="sort">Show</label>
+      <select id="sort">
+        <option value="recent">Recent games</option>
+        <option value="top">Top scores</option>
+      </select>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Finished games</caption>
+          <thead>
+            <tr><th scope="col">Player</th><th scope="col">Result</th>
+                <th scope="col">Tries</th><th scope="col">Score</th><th scope="col">When</th></tr>
+          </thead>
+          <tbody id="board-body"></tbody>
+        </table>
+      </div>
+      <p id="board-empty" class="help" hidden>No games yet. Be the first on the board!</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Built with Java 17, Jakarta Servlet 6, JDBC and H2.</p>
+    <p class="footer-links">
+      <button type="button" class="link-btn" data-cookie-settings>Cookie settings</button>
+      <a href="privacy.html">Privacy &amp; cookies</a>
+    </p>
+  </footer>
+</body>
+</html>

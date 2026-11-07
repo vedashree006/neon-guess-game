@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Maven: run tests",
+      "type": "shell",
+      "command": "mvn test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Maven: build WAR",
+      "type": "shell",
+      "command": "mvn clean package",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run on Tomcat 10.1 (Cargo)",
+      "type": "shell",
+      "command": "mvn package cargo:run",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

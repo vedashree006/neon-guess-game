@@ -1,0 +1,84 @@
+/* Admin pages: layered on top of style.css so the neon look is shared. */
+body { padding-bottom: 2rem; }
+a { color: var(--blue); }
+
+.admin-head, .admin-grid, .admin-banner, .login-wrap { position: relative; z-index: 1; }
+.admin-head {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  max-width: 1180px; margin: 0 auto; padding: 1.6rem 1rem 0.6rem;
+}
+.admin-head h1 {
+  margin: 0; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: 0.03em;
+  text-shadow: 0 0 14px var(--purple), 0 0 34px var(--purple);
+}
+.admin-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.admin-actions form { margin: 0; }
+.btn-small { padding: 0.55rem 1rem; font-size: 0.8rem; text-decoration: none; display: inline-block; }
+.btn-ghost-link { margin-top: 0; background: transparent; border: 2px solid var(--purple); color: #fff; box-shadow: none; }
+
+.pill {
+  display: inline-block; padding: 0.1rem 0.7rem; border-radius: 99px; font-size: 0.78rem; font-weight: 700;
+  border: 1px solid var(--blue); color: var(--blue);
+}
+.pill.ok { border-color: var(--green); color: var(--green); }
+.pill.err { border-color: var(--red); color: var(--red); }
+
+.admin-banner { max-width: 1150px; margin: 0.8rem auto; }
+.admin-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 1.2rem; max-width: 1180px; margin: 1rem auto; padding: 0 1rem;
+}
+.admin-grid .wide { grid-column: 1 / -1; }
+.admin-grid .stats { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); margin-bottom: 0.8rem; }
+.admin-grid .card h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.tag {
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.1rem 0.6rem; border-radius: 99px;
+  color: var(--muted); border: 1px solid rgba(167, 139, 250, 0.45); text-shadow: none;
+}
+.card .help { margin-top: 0.4rem; }
+
+.chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.6rem; }
+.chart-head h2 { margin: 0 0 0.6rem; }
+.range { display: flex; gap: 0.4rem; }
+.range-btn {
+  padding: 0.35rem 0.8rem; font: inherit; font-size: 0.82rem; color: var(--text); cursor: pointer;
+  background: rgba(10, 5, 28, 0.7); border: 1px solid rgba(167, 139, 250, 0.45); border-radius: 99px;
+}
+.range-btn[aria-pressed="true"] { border-color: var(--pink); box-shadow: 0 0 14px rgba(244, 114, 182, 0.6); }
+.range-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+.chart svg { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: rgba(167, 139, 250, 0.2); stroke-width: 1; }
+.chart .axis-text { fill: var(--muted); font-size: 11px; }
+.chart .line { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot { stroke: none; }
+.s1 { stroke: var(--blue); fill: var(--blue); }
+.s2 { stroke: var(--pink); fill: var(--pink); }
+.s3 { stroke: var(--green); fill: var(--green); }
+.s4 { stroke: #fde047; fill: #fde047; }
+.chart .line { filter: drop-shadow(0 0 4px currentColor); }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; margin: 0.4rem 0 0.8rem; padding: 0; list-style: none; font-size: 0.85rem; }
+.legend li { display: flex; align-items: center; gap: 0.4rem; }
+.legend i { width: 18px; height: 4px; border-radius: 2px; display: inline-block; }
+.legend .s1 { background: var(--blue); } .legend .s2 { background: var(--pink); }
+.legend .s3 { background: var(--green); } .legend .s4 { background: #fde047; }
+details { margin-top: 0.4rem; }
+summary { cursor: pointer; color: var(--blue); }
+summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+.defs { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.2rem; margin: 0; }
+.defs dt { font-weight: 700; color: var(--blue); }
+.defs dd { margin: 0; color: var(--muted); }
+
+.login-wrap { display: grid; place-items: center; min-height: 100vh; padding: 1rem; }
+.login-card { width: min(420px, 100%); }
+.login-title { margin: 0 0 0.4rem; font-size: 1.6rem; text-shadow: 0 0 14px var(--purple); }
+
+@media (max-width: 560px) { .defs { grid-template-columns: 1fr; } }
+
+/* Privacy page */
+.legal { position: relative; z-index: 1; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+.legal h1 { margin-top: 0; text-shadow: 0 0 14px var(--purple); }
+.legal h2 { font-size: 1.1rem; margin-top: 1.6rem; }
+.legal td { white-space: normal; }
+.footer { position: relative; z-index: 1; }
